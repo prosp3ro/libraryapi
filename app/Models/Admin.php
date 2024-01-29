@@ -45,29 +45,29 @@ class Admin extends Model implements JWTSubject
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'login',
-    //     'name',
-    //     'password',
-    // ];
+    protected $fillable = [
+        'login',
+        'name',
+        'password',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    // protected $hidden = [
-    //     'password',
-    // ];
+    protected $hidden = [
+        'password',
+    ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    // protected $casts = [
-    //     'password' => 'hashed',
-    // ];
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

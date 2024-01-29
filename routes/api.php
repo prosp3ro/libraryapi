@@ -14,6 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// http://localhost/api/test
+Route::get('/test', function () {
+    return "it works";
 });
+
+// user
+// Route::post('login', []);
+// Route::post('logout', []);
+// Route::post('refresh', []);
+// Route::post('my-profile', []);
+
+// admin
+
+// books
