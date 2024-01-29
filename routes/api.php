@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,10 +25,11 @@ Route::get('/test', function () {
 });
 
 // user
-// Route::post('login', []);
-// Route::post('logout', []);
-// Route::post('refresh', []);
-// Route::post('my-profile', []);
+Route::post('login', [AuthController::class, "login"]);
+Route::post('register', [AuthController::class, "register"]);
+Route::post('logout', [AuthController::class, "logout"]);
+Route::post('refresh', [AuthController::class, "refresh"]);
+Route::post('my-profile', [AuthController::class, "myProfile"]);
 
 // admin
 
