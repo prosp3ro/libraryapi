@@ -104,3 +104,17 @@ php artisan serve
 ```
 
 The application will be accessible at `http://localhost:8000`.
+
+### 11. Register/login and send authenticated request
+
+- Authorization header:
+
+```text
+Authorization: Bearer eyJhbGciOiJIUzI1NiI...
+```
+
+- Query string parameter:
+
+```text
+http://localhost:8000/my-profile?token=eyJhbGciOiJIUzI1NiI...
+```
