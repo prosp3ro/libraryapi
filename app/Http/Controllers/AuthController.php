@@ -3,18 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'registerAdmin']]);
-    }
-
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [

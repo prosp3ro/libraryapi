@@ -21,16 +21,18 @@ Route::get('/test', function () {
     return "it works";
 });
 
-// TODO  move middleware logic from a controller here
 // ex. http://localhost/api/auth/login
 Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('/login', [AuthController::class, 'login']);
     $router->post('/register', [AuthController::class, 'register']);
-    $router->post('/logout', [AuthController::class, 'logout']);
-    $router->post('/refresh', [AuthController::class, 'refresh']);
-    $router->get('/profile', [AuthController::class, 'myProfile']);
 
     $router->post('/admin/register', [AuthController::class, 'registerAdmin']);
+
+    $router->middleware(['auth:api'])->group(function ($router) {
+        $router->post('/logout', [AuthController::class, 'logout']);
+        $router->post('/refresh', [AuthController::class, 'refresh']);
+        $router->get('/profile', [AuthController::class, 'myProfile']);
+    });
 });
 
 Route::group(['prefix' => 'books', 'middleware' => 'auth:api'], function ($router) {
