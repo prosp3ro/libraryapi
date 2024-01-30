@@ -20,11 +20,13 @@ Route::get('/test', function () {
     return "it works";
 });
 
-// http://localhost/api/auth/login
+// ex. http://localhost/api/auth/login
 Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [AuthController::class, 'myProfile']);
+
+    Route::post('/admin/register', [AuthController::class, 'registerAdmin']);
 });

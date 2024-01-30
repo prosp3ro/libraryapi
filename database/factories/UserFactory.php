@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'login' => fake()->userName,
             'password' => static::$password ??= Hash::make('password'),
+            'is_admin' => fake()->boolean()
         ];
     }
 }
