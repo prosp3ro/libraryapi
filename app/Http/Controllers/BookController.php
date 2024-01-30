@@ -32,7 +32,7 @@ class BookController extends Controller
         );
     }
 
-    public function removeBook($id): JsonResponse
+    public function removeBook(int $id): JsonResponse
     {
         $book = Book::find($id);
 
@@ -54,12 +54,12 @@ class BookController extends Controller
         );
     }
 
-    public function editBook(Request $request, $id): JsonResponse
+    public function editBook(Request $request, int $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'string',
-            'isbn' => 'string',
-            'author' => 'string',
+            'title' => 'required|string',
+            'isbn' => 'required|string',
+            'author' => 'required|string',
         ]);
 
         if ($validator->fails()) {
