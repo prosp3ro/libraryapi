@@ -57,9 +57,9 @@ class BookController extends Controller
     public function editBook(Request $request, int $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'isbn' => 'required|string',
-            'author' => 'required|string',
+            'title' => 'string',
+            'isbn' => 'string',
+            'author' => 'string',
         ]);
 
         if ($validator->fails()) {
