@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,10 +32,24 @@ Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('/admin/register', [AuthController::class, 'registerAdmin']);
 });
 
+Route::group(['prefix' => 'books', 'middleware' => 'auth:api'], function ($router) {
+    // Available for both admin and not admin
+    // ex. http://localhost/api/books
+    $router->get("/", [BookController::class, "index"]);
+    $router->get("/available", [BookController::class, "showAvailableBooks"]);
 
-// ex. http://localhost/api/books/add
-Route::group(['prefix' => 'books', 'middleware' => ['admin']], function ($router) {
-    $router->post('/add', [BookController::class, 'addBook']);
-    $router->delete('/remove/{id}', [BookController::class, 'removeBook']);
-    $router->put('/edit/{id}', [BookController::class, 'editBook']);
+    $router->middleware(['admin'])->group(function ($router) {
+        // Available only for admin
+        // ex. http://localhost/api/books/add
+        $router->post('/add', [BookController::class, 'addBook']);
+        $router->delete('/remove/{id}', [BookController::class, 'removeBook']);
+        $router->put('/edit/{id}', [BookController::class, 'editBook']);
+    });
+
+    $router->middleware(['not_admin'])->group(function ($router) {
+        // Available only for not admin
+        // ex. http://localhost/api/books/borrow/1
+        $router->post('/borrow/{id}', [BookController::class, 'borrowBook']);
+        $router->post('/return/{id}', [BookController::class, 'returnBook']);
+    });
 });

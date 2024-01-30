@@ -47,4 +47,6 @@ class Book extends Model
         'isbn',
         'author',
     ];
+
+    // public $timestamps = false;
 }

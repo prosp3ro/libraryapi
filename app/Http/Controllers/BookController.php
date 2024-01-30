@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
+    public function index(): JsonResponse
+    {
+        $books = Book::select(['id', 'title', 'isbn', 'author', 'is_borrowed'])->get();
+
+        return response()->json($books);
+    }
+
+    public function showAvailableBooks(): JsonResponse
+    {
+        $books = Book::select(['id', 'title', 'isbn', 'author', 'is_borrowed'])
+            ->where("is_borrowed", true)
+            ->get();
+
+        return response()->json($books);
+    }
+
     public function addBook(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
