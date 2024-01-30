@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('isbn');
             $table->string('author');
-            $table->boolean('is_borrowed');
+            $table->boolean('is_borrowed')->default(false);
             $table->timestamps();
         });
     }
