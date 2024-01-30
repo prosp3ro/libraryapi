@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +22,19 @@ Route::get('/test', function () {
 
 // ex. http://localhost/api/auth/login
 Route::group(['prefix' => 'auth'], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/profile', [AuthController::class, 'myProfile']);
+    $router->post('/login', [AuthController::class, 'login']);
+    $router->post('/register', [AuthController::class, 'register']);
+    $router->post('/logout', [AuthController::class, 'logout']);
+    $router->post('/refresh', [AuthController::class, 'refresh']);
+    $router->get('/profile', [AuthController::class, 'myProfile']);
 
-    Route::post('/admin/register', [AuthController::class, 'registerAdmin']);
+    $router->post('/admin/register', [AuthController::class, 'registerAdmin']);
+});
+
+
+// ex. http://localhost/api/books/add
+Route::group(['prefix' => 'books', 'middleware' => ['admin']], function ($router) {
+    $router->post('/add', [BookController::class, 'addBook']);
+    $router->delete('/remove/{id}', [BookController::class, 'removeBook']);
+    $router->put('/edit/{id}', [BookController::class, 'editBook']);
 });
