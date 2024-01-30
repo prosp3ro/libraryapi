@@ -21,6 +21,7 @@ Route::get('/test', function () {
     return "it works";
 });
 
+// TODO  move middleware logic from a controller here
 // ex. http://localhost/api/auth/login
 Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('/login', [AuthController::class, 'login']);
@@ -49,7 +50,9 @@ Route::group(['prefix' => 'books', 'middleware' => 'auth:api'], function ($route
     $router->middleware(['not_admin'])->group(function ($router) {
         // Available only for not admin
         // ex. http://localhost/api/books/borrow/1
+        // TODO should be connected to the user borrowing a book (NOTE: user book relationship with users_books migration)
         $router->post('/borrow/{id}', [BookController::class, 'borrowBook']);
+        // TODO only a user that has borrowed a certain book can return it
         $router->post('/return/{id}', [BookController::class, 'returnBook']);
     });
 });

@@ -39,13 +39,10 @@ class BookController extends Controller
 
         $book = Book::create($validator->validated());
 
-        return response()->json(
-            [
-                'message' => 'Book added successfully',
-                'book' => $book
-            ],
-            201
-        );
+        return response()->json([
+            'message' => 'Book added successfully',
+            'book' => $book
+        ], 201);
     }
 
     public function removeBook(int $id): JsonResponse
@@ -53,21 +50,12 @@ class BookController extends Controller
         $book = Book::find($id);
 
         if (!$book) {
-            return response()->json(
-                [
-                    'error' => 'Book not found'
-                ],
-                404
-            );
+            return response()->json(['error' => 'Book not found'], 404);
         }
 
         $book->delete();
 
-        return response()->json(
-            [
-                'message' => 'Book removed successfully'
-            ]
-        );
+        return response()->json(['message' => 'Book removed successfully']);
     }
 
     public function editBook(Request $request, int $id): JsonResponse
@@ -85,21 +73,57 @@ class BookController extends Controller
         $book = Book::find($id);
 
         if (!$book) {
-            return response()->json(
-                [
-                    'error' => 'Book not found'
-                ],
-                404
-            );
+            return response()->json(['error' => 'Book not found'], 404);
         }
 
         $book->update($validator->validated());
 
-        return response()->json(
-            [
-                'message' => 'Book updated successfully',
-                'book' => $book
-            ]
-        );
+        return response()->json([
+            'message' => 'Book updated successfully',
+            'book' => $book
+        ]);
+    }
+
+    public function borrowBook(Request $request, int $id): JsonResponse
+    {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return response()->json(['error' => 'Book not found'], 404);
+        }
+
+        if ($book->is_borrowed) {
+            return response()->json(['error' => 'Book is already borrowed'], 400);
+        }
+
+        // TODO $user->borrowedBooks()->attach($book);
+        // $book->update(['is_borrowed' => true]);
+        // dump($book);
+
+        $book->is_borrowed = true;
+        $book->save();
+
+        return response()->json(['message' => 'Book borrowed successfully']);
+    }
+
+    public function returnBook(Request $request, int $id): JsonResponse
+    {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return response()->json(['error' => 'Book not found'], 404);
+        }
+
+        if (!$book->is_borrowed) {
+            return response()->json(['error' => 'Book is not borrowed'], 400);
+        }
+
+        // TODO $user->borrowedBooks()->detach($book);
+        // $book->update(['is_borrowed' => false]);
+
+        $book->is_borrowed = false;
+        $book->save();
+
+        return response()->json(['message' => 'Book returned successfully']);
     }
 }
